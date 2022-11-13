@@ -1,11 +1,17 @@
 package mk.finki.students.service;
 
+import mk.finki.students.pipeandfilter.FilterUnnamed;
+import mk.finki.students.pipeandfilter.LocationTypeNameFilter;
+import mk.finki.students.pipeandfilter.Pipe;
+
 public class Line {
 
     private String x;
     private String y;
     private String type;
     private String location;
+
+    public static Pipe<String> pipe = new Pipe<>();
 
     public Line(String x, String y, String type, String location) {
         this.x = x;
@@ -14,36 +20,31 @@ public class Line {
         this.location = location;
     }
 
-    public static boolean hasBuildingInfo = false;
-
-    public static void columnSkip(String s) {
+    // return true if the csv file has building data as 4th column
+    public static boolean columnSkip(String s) {
         String[] string = s.split(",");
         if (string[3].equals("building")) {
-            hasBuildingInfo = true;
-            return;
+            return true;
         }
-        hasBuildingInfo = false;
-
+        return false;
     }
 
-    public static Line createLine(String s) {
+    public Line(String[] strings) {
+        this(strings[0], strings[1], strings[2], strings[3]);
+    }
 
-        String[] string = s.split(",");
-        String x = string[0];
-        String y = string[1];
-        String type = string[2];
+    public static Line createLine(String s, boolean hasBuildingInfo) {
+        pipe.clearFilters();
+        pipe.addFilter(new FilterUnnamed(hasBuildingInfo));  // return null if the string has no info for name or type
+        pipe.addFilter(new LocationTypeNameFilter(hasBuildingInfo)); // return only the 4 properties x, y, type and name
 
-        if (string.length < 4 || string[3].equals("")) {
+        String filteredString = pipe.runFilter(s);
+        if (filteredString == null) {
             return null;
         }
-        String location = string[3];
-        if (hasBuildingInfo) {
-            if (string.length < 5 || string[4].equals("")) {
-                return null;
-            }
-            location = string[4];
-        }
-        return new Line(x, y, type, location);
+
+        String[] strings = filteredString.split(",");
+        return new Line(strings);
     }
 
     @Override

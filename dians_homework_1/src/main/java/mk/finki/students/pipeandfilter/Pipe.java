@@ -18,4 +18,8 @@ public class Pipe<T> {
         }
         return input;
     }
+
+    public void clearFilters() {
+        filters.clear();
+    }
 }

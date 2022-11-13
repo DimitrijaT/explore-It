@@ -5,8 +5,8 @@ import mk.finki.students.exceptions.FileExistsException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public interface Filter <T>{
+public interface Filter<T> {
 
-    T execute (T input);
+    T execute(T input);
 
 }

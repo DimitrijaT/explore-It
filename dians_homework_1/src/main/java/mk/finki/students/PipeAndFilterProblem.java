@@ -4,39 +4,45 @@ package mk.finki.students;
 import mk.finki.students.exceptions.FileExistsException;
 import mk.finki.students.files.FileManager;
 import mk.finki.students.files.Impl.FileManagerImpl;
+import mk.finki.students.pipeandfilter.NullLineCollectionFilter;
+import mk.finki.students.pipeandfilter.Pipe;
+import mk.finki.students.service.Line;
 import mk.finki.students.service.LineCollection;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.List;
 
 public class PipeAndFilterProblem {
     public static void main(String[] args) throws IOException, FileExistsException {
 
-        FileManager fileManager = new FileManagerImpl();
-        File[] files = fileManager.readCsvInFolder("C:\\Users\\Public\\Documents\\Explore_It\\dians_homework_1\\src\\main\\java\\mk\\finki\\students\\input");
+        Pipe<List<Line>> pipeLineCollection = new Pipe<>();
+        NullLineCollectionFilter nullFilter = new NullLineCollectionFilter();
+        pipeLineCollection.addFilter(nullFilter);
 
-        int i = 1;
-        for (File s : files) {
+        FileManager fileManager = new FileManagerImpl();
+        File[] files = fileManager.readCsvInFolder("src/main/java/mk/finki/students/input");
+
+        LineCollection combinedData = new LineCollection();
+        combinedData.addHeadLine();
+
+        for (File file : files) {
 
             LineCollection collection = new LineCollection();
-            collection.readLines(s.getAbsolutePath());
-            collection.printLinesCsv();
+            collection.readLines(file); //read all lines
 
-            File f = fileManager.createNewFile(String.format("C:\\Users\\Public\\Documents\\Explore_It\\dians_homework_1\\src\\main\\java\\mk\\finki\\students\\output\\%s", s.getName()));
-            fileManager.writeToTextFile(f, collection, false);
+            List<Line> filteredLines = pipeLineCollection.runFilter(collection.getLines()); //remove null lines
+            combinedData.appendLines(filteredLines);
+
+            LineCollection collectionToPrint = new LineCollection();
+            collectionToPrint.addHeadLine();
+            collectionToPrint.appendLines(filteredLines);
+
+            File f = fileManager.createNewFile(String.format("src/main/java/mk/finki/students/output/%s", file.getName()));
+            fileManager.writeToTextFile(f, collectionToPrint, false);
         }
-
-
-//        Pipe<String> pipe = new Pipe<>();
-//
-//        Filter readCsvInFolder = new ReadCsvsToFiles();
-//        Filter readFilesToLineCollections = new ReadFilesToLineCollections();
-//
-//        pipe.addFilter(readCsvInFolder);
-//        pipe.addFilter(readFilesToLineCollections);
-//
-//        pipe.runFilter("C:\\Users\\Public\\Documents\\dians_homework_1\\src\\main\\java\\mk\\finki\\students\\input");
+        File f = fileManager.createNewFile("src/main/java/mk/finki/students/output/combinedData.csv");
+        fileManager.writeToTextFile(f, combinedData, false);
 
     }
 }
