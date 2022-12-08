@@ -76,6 +76,8 @@ export class MapApp extends React.Component {
                     } else if (result.state === "denied") {
                         console.log("geolocation denied.")
                     }
+                }, () => {
+                    console.log("geolocation promise rejected");
                 });
         }
     }
