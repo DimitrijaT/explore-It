@@ -58,7 +58,7 @@ export class MapApp extends React.Component {
             map_view: new L.Map('map', {
                 center: [this.state.defaultCoordinates.latitude, this.state.defaultCoordinates.longitude], zoom: 12
             }).addLayer(L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
-               maxZoom: 20, attribution: '© <a href="https://stadiamaps.com/">Stadia Maps</a>'
+                maxZoom: 20, attribution: '© <a href="https://stadiamaps.com/">Stadia Maps</a>'
             }))
         });
 
@@ -123,7 +123,7 @@ export class MapApp extends React.Component {
     }
 
     flyToDefaultPosition() {
-        this.state.map_view.flyTo(new L.LatLng(this.state.defaultCoordinates.latitude, this.state.defaultCoordinates.longitude))
+        this.state.map_view.flyTo([this.state.defaultCoordinates.latitude, this.state.defaultCoordinates.longitude], 12);
     }
 
     removeMarkers() {
@@ -131,6 +131,7 @@ export class MapApp extends React.Component {
         this.setState({
             poi_elements: [], markerLayer: null
         })
+        this.flyToDefaultPosition();
     }
 
     addMarkersToMap(icon) {
@@ -143,10 +144,16 @@ export class MapApp extends React.Component {
             let poiType = poi.getType();
             let p_type = t('type');
             let p_id = t('id');
+            let distance = this.state.map_view.distance([poiLat, poiLon],[this.state.defaultCoordinates.latitude, this.state.defaultCoordinates.longitude])/1000.0;
+            distance = distance.toFixed(2);
 
             let poiId = poi.getId();
             new L.Marker([poiLat, poiLon], {icon: d_icon})
-                .bindPopup(`<h3>${poiName}</h3><p>${p_type}: ${poiType}</p><p>${p_id}: ${poiId}</p>`)
+                .bindPopup(`
+                    <h3>${poiName}</h3>
+                    <p>${t("distance_from_location")}: ${distance}km</p>
+                    <p>${p_type}: ${poiType}</p>
+                    <p>${p_id}: ${poiId}</p>`)
                 .addTo(temp_Layer);
         })
         this.setState({markerLayer: temp_Layer});
@@ -154,7 +161,7 @@ export class MapApp extends React.Component {
 
     changeLanguage(desiredLang) {
         if (this.state.language !== desiredLang) {
-            i18next.changeLanguage(desiredLang).then(r => {
+            i18next.changeLanguage(desiredLang).then(() => {
                 this.setState({language: desiredLang})
                 new Cookies().set("lang", desiredLang, {maxAge: 3600});
             });
@@ -194,7 +201,7 @@ export class MapApp extends React.Component {
             });
     }
 
-    showFoodshops() {
+    showFood_shops() {
         this.removeMarkers();
         this.flyToDefaultPosition();
         this.fill_state_with_results("foodshops")
@@ -203,7 +210,7 @@ export class MapApp extends React.Component {
                 this.addMarkersToMap(this.state.defaultIcon);
             }, () => {
                 // atms promise is not resolved.
-                alert("Foodshops - API Call failed.")
+                alert("Food_shops - API Call failed.")
             });
     }
 
@@ -232,6 +239,27 @@ export class MapApp extends React.Component {
                 alert("Pubs - API Call failed.")
             });
     }
+
+    search() {
+        let query = document.getElementById("search_field").value
+        if(query !== "") {
+            let results = [];
+            let temp_poi_holder;
+            for (const property in this.state.markerLayer._layers) {
+                temp_poi_holder = this.state.markerLayer._layers[property];
+                if (temp_poi_holder._popup._content.toString().trim().toLowerCase().includes(query.toLowerCase()))
+                    results.push(temp_poi_holder);
+            }
+            if (results.length > 0) {
+                this.state.map_view.openPopup(results[0]._popup, [results[0]._latlng.lat, results[0]._latlng.lng])
+                this.state.map_view.flyTo([results[0]._latlng.lat, results[0]._latlng.lng], 15, {easeLinearity: 0.15})
+            }
+        } else {
+            console.log("cannot find poi")
+        }
+    }
+
+    // TODO: Query to Coordinates
 
     render() {
         return (
@@ -286,8 +314,8 @@ export class MapApp extends React.Component {
                     }}>{t("show_caterings")}</Button>
 
                     <Button variant="outline-dark" onClick={() => {
-                        this.showFoodshops()
-                    }}>{t("show_foodshops")}
+                        this.showFood_shops()
+                    }}>{t("show_food_shops")}
                     </Button>
 
                     <Button variant="outline-dark" onClick={() => {
@@ -302,8 +330,23 @@ export class MapApp extends React.Component {
                 <br/>
                 <Button variant="danger" id="clearMapButton" onClick={() => {
                     this.removeMarkers();
-                }}>Исчисти мапа</Button>
-                <div id="map"></div>
+                }}>{t("clear_map")}</Button>
+                <div id="body" className="flex-container">
+                    <div id="map" className="bodyDiv"></div>
+                    <div id="search_div" className="bodyDiv">
+                        <h3>{t('search')}</h3>
+                        <input type="text" id="search_field"></input>
+                        <div id="buttonHolder">
+                        <Button type="submit" variant="outline-dark" id="search_button" onClick={() => {
+                            this.search();
+                        }}>{t("submit_search")}</Button>
+                        <Button type="reset" variant="danger" id="reset_search" onClick={() => {
+                            document.getElementById("search_field").value = "";
+                            this.removeMarkers();
+                        }}>{t("reset_search")}</Button>
+                        </div>
+                    </div>
+                </div>
             </div>)
     }
 }

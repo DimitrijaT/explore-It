@@ -23,7 +23,7 @@
 }
 
 .button_container {
-  margin: 0px 10px 10px 10px;
+  margin: 0 10px 10px 10px;
   display: block;
 }
 
@@ -35,11 +35,36 @@
   background-color: darkgrey;
 }
 
-
 .button_container.btn:focus{
   background-color: darkgrey;
 }
 
 #clearMapButton {
-  margin: 0px 10px 10px 10px;
+  margin: 0 10px 10px 10px;
+}
+
+#body{
+  position: static;
+  display: flex;
+  flex-direction: row;
+}
+
+.bodyDiv {
+  margin: 0 10px 10px 10px;
+}
+
+#search_div {
+  display: flex;
+  flex-direction: column;
+}
+
+#search_button {
+  width: 100px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#reset_search {
+  margin: 10px 10px 10px 10px;
+  width: 100px;
 }
