@@ -6,8 +6,40 @@
 #map {
   width: 500px;
   height: 500px;
+  margin-left: 10px;
+  border-radius: 10px;
 }
 
 #main {
 
+}
+
+#title {
+  margin: 10px 10px 10px 10px;
+}
+
+.poi_button {
+  border: black;
+}
+
+.button_container {
+  margin: 0px 10px 10px 10px;
+  display: block;
+}
+
+#poi_button_container {
+  width: 500px;
+}
+
+.btn:focus{
+  background-color: darkgrey;
+}
+
+
+.button_container.btn:focus{
+  background-color: darkgrey;
+}
+
+#clearMapButton {
+  margin: 0px 10px 10px 10px;
 }

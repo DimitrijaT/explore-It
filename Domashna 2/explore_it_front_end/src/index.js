@@ -3,11 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import './translation/i18n'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    // TODO: Remove in production
+
     // if comments are removed (in development) componentDidMount() gets fired twice and some buttons don't work as expected.
+
+    // TODO: Remove in production
     //<React.StrictMode>
         <App/>
     //</React.StrictMode>

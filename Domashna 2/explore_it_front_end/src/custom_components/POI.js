@@ -1,9 +1,6 @@
-import React from 'react'
-
-export class POI extends React.Component {
+export class POI{
 
     constructor(props) {
-        super(props);
 
         this.state = {
             poi_type: props["type"],
