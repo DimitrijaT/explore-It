@@ -1,0 +1,70 @@
+#singleButton {
+  font-size: 20px;
+  margin: 20px 20px 20px 20px;
+}
+
+#map {
+  width: 500px;
+  height: 500px;
+  margin-left: 10px;
+  border-radius: 10px;
+}
+
+#main {
+
+}
+
+#title {
+  margin: 10px 10px 10px 10px;
+}
+
+.poi_button {
+  border: black;
+}
+
+.button_container {
+  margin: 0 10px 10px 10px;
+  display: block;
+}
+
+#poi_button_container {
+  width: 500px;
+}
+
+.btn:focus{
+  background-color: darkgrey;
+}
+
+.button_container.btn:focus{
+  background-color: darkgrey;
+}
+
+#clearMapButton {
+  margin: 0 10px 10px 10px;
+}
+
+#body{
+  position: static;
+  display: flex;
+  flex-direction: row;
+}
+
+.bodyDiv {
+  margin: 0 10px 10px 10px;
+}
+
+#search_div {
+  display: flex;
+  flex-direction: column;
+}
+
+#search_button {
+  width: 100px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#reset_search {
+  margin: 10px 10px 10px 10px;
+  width: 100px;
+}
