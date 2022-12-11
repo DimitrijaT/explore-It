@@ -4,6 +4,7 @@ package mk.ukim.finki.web.rest;
 import mk.ukim.finki.model.*;
 import mk.ukim.finki.service.*;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,12 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 
+// TODO: Remove in production
+// CORS Temp fix
 /**
  * This is where you are supposed to write the apis <br>
  * The communication is done purely with the interface LocationService. <br>
  * The old calls still exist to retain functionality of the app <br>
  */
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/location")
 public class LocationController {
