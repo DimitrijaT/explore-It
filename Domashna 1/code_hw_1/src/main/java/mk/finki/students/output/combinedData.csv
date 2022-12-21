@@ -1,4 +1,4 @@
-﻿x,y,type,name
+x,y,type,name
 22.7734193,41.9721268,atm,Blagoj Zlatkovski
 21.5543192,41.3445751,atm,Silk Road
 20.8058637,41.1106354,atm,Комерцијална Банка
@@ -1209,7 +1209,7 @@
 22.3948926,41.9045055,hotel,Национал
 22.4119196,41.9186826,hotel,Ледер
 22.7381829,41.913516,hotel,Одмаралиште Голак
-20.7942088,41.1114429,hotel,"Apartments by the Lake
+20.7942088,41.1114429,hotel,"""Apartments by the Lake"
 20.797118,41.112396,hotel,Apartmani Marija
 20.7974286,41.1119443,hotel,Villa St.Nicholas
 20.7978445,41.1125227,hotel,Costa House
