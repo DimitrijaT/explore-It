@@ -28,7 +28,10 @@ i18n
                     search: "Search by name",
                     submit_search: "Submit",
                     reset_search: "Reset",
-                    distance_from_location: "Distance from your location"
+                    distance_from_location: "Distance from your location",
+                    home: "Home",
+                    about: "About",
+                    contact: "Contact"
                 }
             },
             mk: {
@@ -49,7 +52,10 @@ i18n
                     search: "Пребарувај по име",
                     submit_search: "Испрати",
                     reset_search: "Ресетирај",
-                    distance_from_location: "Оддалеченост од вашата локација"
+                    distance_from_location: "Оддалеченост од вашата локација",
+                    home: "Почетна",
+                    about: "За нас",
+                    contact: "Контакт"
                 }
             },
             al: {
@@ -70,7 +76,10 @@ i18n
                     search: "Kërko sipas emrit",
                     submit_search: "Paraqisni",
                     reset_search: "Rivendos",
-                    distance_from_location: "Largësia nga vendndodhja juaj"
+                    distance_from_location: "Largësia nga vendndodhja juaj",
+                    home: "Shtëpi",
+                    about: "Për Ne",
+                    contact: "Kontaktoni"
                 }
             }
         }
