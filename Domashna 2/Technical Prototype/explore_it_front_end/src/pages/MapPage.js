@@ -19,7 +19,7 @@ export class MapPage extends React.Component {
             poi_elements: [],
             map_view: null,
             defaultIcon: new L.Icon({
-                iconUrl: require("../icons/poi_icon.png"), iconSize: [50, 50], iconAnchor: [25, -10],
+                iconUrl: require("../icons/poi_icon.png"), iconSize: [20, 30], iconAnchor: [25, -10],
             }),
             userLocationIcon: new L.Icon({
                 iconUrl: require("leaflet/dist/images/marker-icon-2x.png"), iconSize: [20, 30]
@@ -87,20 +87,21 @@ export class MapPage extends React.Component {
         });
 
         if (navigator.geolocation) {
-            navigator.permissions
-                .query({name: "geolocation"})
-                .then((result) => {
-                    console.log("Result: " + result.state);
+            navigator.permissions.query({ name: "geolocation" }).then(
+                (result) => {
+                    console.log("geolocation promise fulfilled");
                     if (result.state === "granted" || result.state === "prompt") {
                         this.positionMarker();
                     } else if (result.state === "denied") {
-                        console.log("geolocation denied.")
+                        console.log("geolocation denied.");
                         this.resetUserMarker();
                     }
-                }, () => {
-                    console.log("geolocation promise rejected");
+                },
+                (error) => {
+                    console.log("geolocation promise rejected:", error);
                     this.resetUserMarker();
-                });
+                }
+            );
         }
 
         let tempCookie = new Cookies().get("lang");
@@ -119,23 +120,20 @@ export class MapPage extends React.Component {
         };
 
         navigator.geolocation.getCurrentPosition((position) => {
-            this.setUserLocation(position);
-            console.log(position)
+            console.log("positionMarker()")
+            this.setState({
+                defaultCoordinates: {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                }
+            }, () => {
+                this.resetUserMarker();
+            });
         }, () => {
-            console.log("error prompt geolocation")
+            console.log("error prompt geolocation");
             this.resetUserMarker();
         }, options);
 
-    }
-
-    setUserLocation(position) {
-        this.setState({
-            defaultCoordinates: {
-                latitude: position.coords.latitude, longitude: position.coords.longitude
-            }
-        }, () => {
-            this.resetUserMarker();
-        });
     }
 
     resetUserMarker() {
@@ -180,7 +178,7 @@ export class MapPage extends React.Component {
                     <p>${t("distance_from_location")}: ${distance}km</p>
                     <p>${p_type}: ${poiType}</p>
                     <p>${p_id}: ${poiId}</p>
-                    <a href="https://www.google.com/maps/search/?api=1&query=${poiLat}%2C${poiLon}" target="_blank">${t("send_to_g_maps")}</a>`)
+                    <a href="https://www.google.com/maps/search/?api=1&query=${poiLat}%2C${poiLon}" target="_blank">${t("send_to_g_maps")}</a>`, {offset: [-15, 10]})
                 .addTo(temp_Layer);
         })
         this.setState({markerLayer: temp_Layer});
@@ -247,7 +245,6 @@ export class MapPage extends React.Component {
             });
     }
 
-
     search() {
         if(this.state.poi_elements.length === 0)
             alert(t("empty_poi_list_search_error"))
@@ -257,7 +254,9 @@ export class MapPage extends React.Component {
             let temp_poi_holder;
             for (const property in this.state.markerLayer._layers) {
                 temp_poi_holder = this.state.markerLayer._layers[property];
-                if (temp_poi_holder._popup._content.toString().trim().toLowerCase().includes(query.toLowerCase())) results.push(temp_poi_holder);
+                if (temp_poi_holder._popup._content.split("</h3>")[0].toString().trim().toLowerCase().includes(query.toLowerCase())) {
+                    results.push(temp_poi_holder);
+                }
             }
             if (results.length > 0) {
                 this.state.map_view.openPopup(results[0]._popup, [results[0]._latlng.lat, results[0]._latlng.lng])

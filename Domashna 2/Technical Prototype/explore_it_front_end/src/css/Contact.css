@@ -1,6 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
 #contact_main {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background-color: #121212;
+    font-family: Inter;
+    font-size: x-large;
     color: white;
     height: 86vh;
+}
+
+#short_desc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 4vh;
+}
+
+.member {
+    margin-bottom: 3vh;
+}
+
+.member p {
+    margin-bottom: 0;
 }

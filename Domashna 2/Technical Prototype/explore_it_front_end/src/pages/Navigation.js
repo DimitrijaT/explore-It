@@ -10,8 +10,18 @@ export class Navigation extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            cookie: new Cookies()
+            language: "mk"
         }
+    }
+
+
+    componentDidMount() {
+        let tempCookie = new Cookies().get("lang");
+        if (tempCookie === undefined) {
+            new Cookies().set("lang", "mk");
+            tempCookie = "mk";
+        }
+        this.translateTo(tempCookie);
     }
 
     translateTo(desiredLang) {
@@ -19,7 +29,7 @@ export class Navigation extends React.Component {
             i18next.changeLanguage(desiredLang).then(() => {
                 this.setState({language: desiredLang})
                 new Cookies().set("lang", desiredLang, {maxAge: 3600});
-                window.location.reload();
+
             });
         }
     }
@@ -29,7 +39,9 @@ export class Navigation extends React.Component {
             <>
                 <nav>
                     <div className="logo_title">
-                        <img src={require("../logo.png")} alt="" id="logo"/>
+                        <Link to="/">
+                            <img src={require("../logo.png")} alt="" id="logo"/>
+                        </Link>
                         <p id="title">Explore IT</p>
                     </div>
                     <div className="nav_buttons">
@@ -55,6 +67,7 @@ export class Navigation extends React.Component {
                             className="country_flag"
                             onClick={() => {
                                 this.translateTo("mk");
+                                window.location.reload();
                             }}
                             alt=""
                         />
@@ -63,6 +76,7 @@ export class Navigation extends React.Component {
                             className="country_flag"
                             onClick={() => {
                                 this.translateTo("al");
+                                window.location.reload();
                             }}
                             alt=""
                         />
@@ -71,6 +85,7 @@ export class Navigation extends React.Component {
                             className="country_flag"
                             onClick={() => {
                                 this.translateTo("en");
+                                window.location.reload();
                             }}
                             alt=""
                         />

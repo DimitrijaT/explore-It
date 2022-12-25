@@ -37,7 +37,11 @@ i18n
                     show_cafe: "Show Cafes",
                     show_fast_food: "Show Fast Food Restaurants",
                     send_to_g_maps: "Send to Google Maps",
-                    empty_poi_list_search_error: "Search Failed.\nBefore searching you must select a POI category."
+                    empty_poi_list_search_error: "Search Failed.\nBefore searching you must select a POI category.",
+                    short_description_about: "Explore It is a web application for locating the nearest places of interest within the Republic of Macedonia. Each user can search for different places of interest and see their exact location on a map. The application offers the ability to display ATMs, hotels, restaurants, bars, cafes and fast food restaurants on the map view. The motivation behind the application is to encourage and simplify tourism in our country accompanied by stimulating the development of small businesses.",
+                    short_description_contact: "The team behind ExploreIT:",
+                    page_404: "HTTP 404 - page not found.",
+                    redirecting_404: "You will be redirected to the home page in 3 seconds."
                 }
             },
             mk: {
@@ -65,7 +69,11 @@ i18n
                     show_cafe: "Прикажи кафулиња",
                     show_fast_food: "Прикажи ресторани за брза храна",
                     send_to_g_maps: "Испрати до Google Maps",
-                    empty_poi_list_search_error : "Пребарувањето е неуспешно.\nПотребно е прво да се избере катерорија на места од интерес."
+                    empty_poi_list_search_error : "Пребарувањето е неуспешно.\nПотребно е прво да се избере катерорија на места од интерес.",
+                    short_description_about: "Explore It е веб апликација за лоцирање на најблиски места од интерес во рамки на Република Македонија. Секој корисник може да пребарува различни места од интерес и да ја види нивната точна локација на мапа. Апликацијата нуди можност за прикажување на банкомати, хотели, ресторани, барови, кафулиња и ресторани за брза храна на погледот на мапа. Мотивацијата позади апликацијата е поттикнување и поедноставување на туризмот во нашата држава пропратено со стимулација на развојот на малите бизниси.",
+                    short_description_contact: "Тимот позади ExploreIT:",
+                    page_404: "HTTP 404 - страната не е пронајдена.",
+                    redirecting_404: "За 3 секунди ќе бидете пренасочени кон почетната страна."
                 }
             },
             al: {
@@ -96,7 +104,11 @@ i18n
                     show_fast_food: "Shfaq restorantet e ushqimit të shpejtë",
                     send_to_g_maps: "Dërgo te Google Maps",
                     empty_poi_list_search_error: "Kërkimi dështoi.\n" +
-                        "Përpara kërkimit duhet të zgjidhni një kategori POI."
+                        "Përpara kërkimit duhet të zgjidhni një kategori POI.",
+                    short_description_about: "Explore Është një ueb aplikacion për gjetjen e vendeve më të afërta të interesit brenda Republikës së Maqedonisë. Çdo përdorues mund të kërkojë për vende të ndryshme të interesit dhe të shohë vendndodhjen e tyre të saktë në një hartë. Aplikacioni ofron mundësinë për të shfaqur ATM-të, hotelet, restorantet, baret, kafenetë dhe restorantet e ushqimit të shpejtë në pamjen e hartës. Motivimi i aplikimit është nxitja dhe thjeshtimi i turizmit në vendin tonë, i shoqëruar nga stimulimi i zhvillimit të bizneseve të vogla.",
+                    short_description_contact: "Ekipi që qëndron pas ExploreIT:",
+                    page_404: "HTTP 404 - faqja nuk u gjet",
+                    redirecting_404: "Do të ridrejtoheni në faqen kryesore për 3 sekonda."
                 }
             }
         }
