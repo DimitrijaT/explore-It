@@ -12,18 +12,42 @@ import Button from 'react-bootstrap/Button';
 
 export class MapPage extends React.Component {
 
-    constructor() {
-        super(undefined);
+    constructor(props) {
+        super(props);
 
         this.state = {
-            poi_elements: [], map_view: null, defaultIcon: new L.Icon({
+            poi_elements: [],
+            map_view: null,
+            defaultIcon: new L.Icon({
                 iconUrl: require("../icons/poi_icon.png"), iconSize: [50, 50], iconAnchor: [25, -10],
-            }), userLocationIcon: new L.Icon({
+            }),
+            userLocationIcon: new L.Icon({
                 iconUrl: require("leaflet/dist/images/marker-icon-2x.png"), iconSize: [20, 30]
-            }), defaultCoordinates: {
+            }),
+            defaultCoordinates: {
                 latitude: 41.99591947737088, longitude: 21.431464162426444
-            }, markerLayer: null, userMarker: null, language: "", atms: false, catering: false
+            },
+            markerLayer: null,
+            userMarker: null,
+            language: "mk",
+            atms: false,
+            hotels: false,
+            restaurants: false,
+            bars: false,
+            cafes: false,
+            fast_food: false
         }
+    }
+
+    clearAllButtonPresses() {
+        this.setState({
+            atms: false,
+            hotels: false,
+            restaurants: false,
+            bars: false,
+            cafes: false,
+            fast_food: false
+        })
     }
 
     addPoiElement(jsonElement) {
@@ -71,9 +95,11 @@ export class MapPage extends React.Component {
                         this.positionMarker();
                     } else if (result.state === "denied") {
                         console.log("geolocation denied.")
+                        this.resetUserMarker();
                     }
                 }, () => {
                     console.log("geolocation promise rejected");
+                    this.resetUserMarker();
                 });
         }
 
@@ -82,7 +108,6 @@ export class MapPage extends React.Component {
             new Cookies().set("lang", "mk");
             tempCookie = "mk";
         }
-
         this.changeLanguage(tempCookie)
 
     }
@@ -98,6 +123,7 @@ export class MapPage extends React.Component {
             console.log(position)
         }, () => {
             console.log("error prompt geolocation")
+            this.resetUserMarker();
         }, options);
 
     }
@@ -132,6 +158,7 @@ export class MapPage extends React.Component {
             poi_elements: [], markerLayer: null
         })
         this.flyToDefaultPosition();
+        this.clearAllButtonPresses();
     }
 
     addMarkersToMap(icon) {
@@ -146,14 +173,14 @@ export class MapPage extends React.Component {
             let p_id = t('id');
             let distance = this.state.map_view.distance([poiLat, poiLon], [this.state.defaultCoordinates.latitude, this.state.defaultCoordinates.longitude]) / 1000.0;
             distance = distance.toFixed(2);
-
             let poiId = poi.getId();
             new L.Marker([poiLat, poiLon], {icon: d_icon})
                 .bindPopup(`
                     <h3>${poiName}</h3>
                     <p>${t("distance_from_location")}: ${distance}km</p>
                     <p>${p_type}: ${poiType}</p>
-                    <p>${p_id}: ${poiId}</p>`)
+                    <p>${p_id}: ${poiId}</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=${poiLat}%2C${poiLon}" target="_blank">${t("send_to_g_maps")}</a>`)
                 .addTo(temp_Layer);
         })
         this.setState({markerLayer: temp_Layer});
@@ -177,73 +204,53 @@ export class MapPage extends React.Component {
     }
 
     showAtms() {
-        this.removeMarkers();
-        this.flyToDefaultPosition();
-        this.fill_state_with_results("atm")
-            .then(() => {
-                // atms promise is resolved.
-                //this.state.poi_elements.forEach(el => console.log(el.state))
-                this.addMarkersToMap(this.state.defaultIcon);
-            }, () => {
-                // atms promise is not resolved.
-                alert("Atms - API Call failed.")
-            });
+        this.clearAllButtonPresses();
+        this.genericShow_query("atm");
     }
 
-    showCatering() {
-        // TODO: Implement logic for catering etc.
-        this.removeMarkers();
-        this.flyToDefaultPosition();
-        this.fill_state_with_results("caterings")
-            .then(() => {
-                this.addMarkersToMap(this.state.defaultIcon);
-                this.setState({caterings: true});
-            }, () => {
-                alert("Caterings - API Call Failed.");
-            });
-    }
-
-    showFood_shops() {
-        // TODO: Implement logic for food_shops
-        this.removeMarkers();
-        this.flyToDefaultPosition();
-        this.fill_state_with_results("foodshops")
-            .then(() => {
-                // atms promise is resolved.
-                this.addMarkersToMap(this.state.defaultIcon);
-            }, () => {
-                // atms promise is not resolved.
-                alert("Food_shops - API Call failed.")
-            });
+    showRestaurants() {
+        this.clearAllButtonPresses();
+        this.genericShow_query("restaurant");
     }
 
     showHotels() {
+        this.clearAllButtonPresses();
+        this.genericShow_query("hotel");
+    }
+
+    showBars() {
+        this.clearAllButtonPresses();
+        this.setState({bars: true});
+        this.genericShow_query("bar");
+    }
+
+    showCafes() {
+        this.clearAllButtonPresses();
+        this.genericShow_query("cafe")
+    }
+
+    showFastFood() {
+        this.clearAllButtonPresses();
+        this.genericShow_query("fast_food")
+    }
+
+    genericShow_query(query) {
         this.removeMarkers();
         this.flyToDefaultPosition();
-        this.fill_state_with_results("hotel")
+        this.fill_state_with_results(query)
             .then(() => {
                 // atms promise is resolved.
                 this.addMarkersToMap(this.state.defaultIcon);
             }, () => {
                 // atms promise is not resolved.
-                alert("Hotels - API Call failed.")
+                alert(query + " - API Call failed.")
             });
     }
 
-    showPubs() {
-        this.removeMarkers();
-        this.flyToDefaultPosition();
-        this.fill_state_with_results("pub")
-            .then(() => {
-                // atms promise is resolved.
-                this.addMarkersToMap(this.state.defaultIcon);
-            }, () => {
-                // atms promise is not resolved.
-                alert("Pubs - API Call failed.")
-            });
-    }
 
     search() {
+        if(this.state.poi_elements.length === 0)
+            alert(t("empty_poi_list_search_error"))
         let query = document.getElementById("search_field").value
         if (query !== "") {
             let results = [];
@@ -260,62 +267,124 @@ export class MapPage extends React.Component {
             console.log("cannot find poi")
         }
     }
-    /*
-    Translation:
 
-          onClick={() => {
-              this.changeLanguage("mk");
-              this.reloadMap();
-          }}
-          checked={new Cookies().get("lang") === "mk"}
-     */
     render() {
-        return (
-            <div id="main_container">
-                <div id="poi_list">
-                    <ButtonGroup id="poi_button_group">
-                        <Button bsPrefix="customBtn" variant="poi" onClick={() => {
+        return (<div id="main_container">
+            <div id="poi_list">
+                <ButtonGroup id="poi_button_group">
+
+                    <Button bsPrefix="customBtn" variant="poi" onClick={() => {
+                        if (!this.state.atms) {
                             this.showAtms();
-                        }}>
-                            {t("show_atms")}
-                        </Button>
-                        <Button bsPrefix="customBtn" variant="poi" onClick={() => {
+                            this.setState({atms: true});
+                        } else {
+                            this.removeMarkers();
+                            this.flyToDefaultPosition();
+                            this.setState({atms: false});
+                        }
+                    }} style={{backgroundColor: !this.state.atms ? "#2D3748FF" : "#DC3545"}}>{
+                        <span role="img" aria-label="sheep">💰{t("show_atms")}</span>}
+                    </Button>
+
+                    <Button bsPrefix="customBtn" variant="poi" onClick={() => {
+                        if (!this.state.hotels) {
                             this.showHotels();
-                        }}>
-                            {t("show_hotels")}
-                        </Button>
+                            this.setState({hotels: true})
+                        } else {
+                            this.removeMarkers();
+                            this.flyToDefaultPosition();
+                            this.setState({hotels: false});
+                        }
 
-                    </ButtonGroup>
-                </div>
-                <div id="map_and_search">
-                    <div id="map_view">
+                    }} style={{backgroundColor: !this.state.hotels ? "#2D3748FF" : "#DC3545"}}>
+                        {<span role="img" aria-label="sheep">🛎{t("show_hotels")}</span>}
+                    </Button>
 
-                        <div id="map" className="bodyDiv"/>
+                    <Button bsPrefix="customBtn" variant="poi" onClick={() => {
+                        if (!this.state.restaurants) {
+                            this.showRestaurants();
+                            this.setState({restaurants: true});
+                        } else {
+                            this.removeMarkers();
+                            this.flyToDefaultPosition();
+                            this.setState({restaurants: false});
+                        }
+                    }} style={{backgroundColor: !this.state.restaurants ? "#2D3748FF" : "#DC3545"}}>
+                        {<span role="img" aria-label="sheep">🍽️{t("show_restaurants")}</span>}
+                    </Button>
 
-                        <div>
-                            <Button variant="danger" id="clearMapButton" onClick={() => {
-                                this.removeMarkers();
-                            }}>{t("clear_map")}</Button>
-                        </div>
 
+                    <Button bsPrefix="customBtn" variant="poi" onClick={() => {
+                        if (!this.state.bars) {
+                            this.showBars();
+                            this.setState({bars: true})
+                        } else {
+                            this.removeMarkers();
+                            this.flyToDefaultPosition();
+                            this.setState({bars: false});
+                        }
+                    }} style={{backgroundColor: !this.state.bars ? "#2D3748FF" : "#DC3545"}}>
+                        {<span role="img" aria-label="sheep">🍸{t("show_bars")}</span>}
+                    </Button>
+
+
+                    <Button bsPrefix="customBtn" variant="poi" onClick={() => {
+                        if (!this.state.cafes) {
+                            this.showCafes();
+                            this.setState({cafes: true})
+                        } else {
+                            this.removeMarkers();
+                            this.flyToDefaultPosition();
+                            this.setState({cafes: false});
+                        }
+                    }} style={{backgroundColor: !this.state.cafes ? "#2D3748FF" : "#DC3545"}}>
+                        {<span role="img" aria-label="sheep">☕{t("show_cafe")}</span>}
+                    </Button>
+
+
+                    <Button bsPrefix="customBtn" variant="poi" onClick={() => {
+                        if(!this.state.fast_food) {
+                            this.showFastFood();
+                            this.setState({fast_food: true});
+                        } else {
+                            this.removeMarkers();
+                            this.flyToDefaultPosition();
+                            this.setState({fast_food: false});
+                        }
+                    }} style={{backgroundColor: !this.state.fast_food ? "#2D3748FF" : "#DC3545"}}>
+                        {<span role="img" aria-label="sheep">🍔{t("show_fast_food")}</span>}
+                    </Button>
+                </ButtonGroup>
+            </div>
+            <div id="map_and_search">
+                <div id="map_view">
+
+                    <div id="map" className="bodyDiv"/>
+
+                    <div>
+                        <Button variant="danger" id="clearMapButton" onClick={() => {
+                            this.removeMarkers();
+                        }}>{t("clear_map")}</Button>
                     </div>
-                    <div id="search_view">
-                            <h3>{t('search')}</h3>
-                            <input type="text" id="search_field"></input>
-                            <div id="buttonHolder">
-                                <Button type="submit" variant="outline-dark" id="search_button" onClick={() => {
-                                    this.search();
-                                }}>{t("submit_search")}</Button>
-                                <Button type="reset" variant="danger" id="reset_search" onClick={() => {
-                                    document.getElementById("search_field").value = "";
-                                    this.removeMarkers();
-                                }}>{t("reset_search")}</Button>
-                            </div>
+
+                </div>
+                <div id="search_view">
+                    <h3>{t('search')}</h3>
+                    <input type="text" id="search_field"></input>
+                    <div id="buttonHolder">
+                        <Button type="submit" variant="outline-dark" id="search_button" onClick={() => {
+                            this.search();
+                        }}>{t("submit_search")}</Button>
+                        <Button type="reset" variant="danger" id="reset_search" onClick={() => {
+                            document.getElementById("search_field").value = "";
+                            this.removeMarkers();
+                        }}>{t("reset_search")}</Button>
                     </div>
                 </div>
             </div>
-        )
+        </div>)
     }
+
 }
 
 

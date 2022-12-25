@@ -1,9 +1,16 @@
 import '../css/NoPage.css'
-export function NoPage () {
-    return (
-        <div id="no_page_main">
-        <h1>Page not found: 404</h1>
-        </div>
-    );
-}
+import React from "react";
+import {t} from "i18next";
 
+export class NoPage extends React.Component {
+    render() {
+        return (
+            <div id="no_page_main">
+                {
+                    //TODO: 404 Page
+                    t("")
+                }
+            </div>
+        );
+    }
+}

@@ -1,9 +1,17 @@
-import '../css/About.css'
-export function About () {
-    return (
-        <div id="about_main">
+import React from 'react';
+import '../css/About.css';
+import {t} from "i18next";
 
-        </div>
-    );
+export class About extends React.Component {
+
+    render() {
+        return (
+            <div id="about_main">
+                {
+                    //TODO About section
+                    t("")
+                }
+            </div>
+        );
+    }
 }
-

@@ -31,7 +31,13 @@ i18n
                     distance_from_location: "Distance from your location",
                     home: "Home",
                     about: "About",
-                    contact: "Contact"
+                    contact: "Contact",
+                    show_restaurants: "Show Restaurants",
+                    show_bars: "Show Bars",
+                    show_cafe: "Show Cafes",
+                    show_fast_food: "Show Fast Food Restaurants",
+                    send_to_g_maps: "Send to Google Maps",
+                    empty_poi_list_search_error: "Search Failed.\nBefore searching you must select a POI category."
                 }
             },
             mk: {
@@ -44,8 +50,6 @@ i18n
                     alb_lang_button: "Албански",
                     user_position: "Ваша позиција",
                     show_atms: "Прикажи банкомати",
-                    show_caterings: "Прикажи кетеринг услуги",
-                    show_food_shops: "Прикажи продавници за храна",
                     show_hotels: "Прикажи хотели",
                     show_pubs: "Прикажи пабови",
                     clear_map: "Исчисти мапа",
@@ -55,7 +59,13 @@ i18n
                     distance_from_location: "Оддалеченост од вашата локација",
                     home: "Почетна",
                     about: "За нас",
-                    contact: "Контакт"
+                    contact: "Контакт",
+                    show_restaurants: "Прикажи ресторани",
+                    show_bars: "Прикажи барови",
+                    show_cafe: "Прикажи кафулиња",
+                    show_fast_food: "Прикажи ресторани за брза храна",
+                    send_to_g_maps: "Испрати до Google Maps",
+                    empty_poi_list_search_error : "Пребарувањето е неуспешно.\nПотребно е прво да се избере катерорија на места од интерес."
                 }
             },
             al: {
@@ -79,13 +89,19 @@ i18n
                     distance_from_location: "Largësia nga vendndodhja juaj",
                     home: "Shtëpi",
                     about: "Për Ne",
-                    contact: "Kontaktoni"
+                    contact: "Kontaktoni",
+                    show_restaurants: "Kontrolloni restorantet",
+                    show_bars: "Shfaq shiritat",
+                    show_cafe: "Trego kafene",
+                    show_fast_food: "Shfaq restorantet e ushqimit të shpejtë",
+                    send_to_g_maps: "Dërgo te Google Maps",
+                    empty_poi_list_search_error: "Kërkimi dështoi.\n" +
+                        "Përpara kërkimit duhet të zgjidhni një kategori POI."
                 }
             }
         }
 
     }).then(() => {
-        // TODO: Promise Resolved
         console.log("i18n promise resolved");
 });
 
