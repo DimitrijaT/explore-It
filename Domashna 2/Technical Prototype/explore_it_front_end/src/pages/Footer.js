@@ -1,7 +1,11 @@
-import '../css/Footer.css'
+import React from 'react';
+import '../css/Footer.css';
 
-export const Footer = () => {
-    const year = new Date().getFullYear();
+export class Footer extends React.Component {
 
-    return <footer>{`Copyright © Stefan Janevski, ${year}`}</footer>;
-};
+    render() {
+        const year = new Date().getFullYear();
+        console.log(this.props.mp);
+        return <footer>{`Copyright © Explore IT, ${year}`}</footer>;
+    }
+}

@@ -4,6 +4,7 @@ nav {
     display: flex;
     flex-direction: row;
     background-color: #2D3748;
+    align-items: center;
     color: #F7FBFC;
     height: 7vh;
 }
@@ -36,14 +37,24 @@ nav {
     transition: 200ms linear;
 }
 
-.title {
+.logo_title {
     display: flex;
     justify-content: left;
     align-items: center;
-    margin: 10px 10px 10px 10px;
     width: 20%;
+}
+
+#title {
+    justify-content: right;
+    margin: 10px 10px 10px 10px;
     font-family: "Inter", sans-serif;
     font-size: x-large;
+}
+
+#logo {
+    justify-content: center;
+    width: 100px;
+    height: 100px;
 }
 
 .translate_section {
