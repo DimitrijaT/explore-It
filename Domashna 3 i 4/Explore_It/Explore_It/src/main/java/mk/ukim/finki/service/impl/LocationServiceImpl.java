@@ -37,14 +37,9 @@ public class LocationServiceImpl implements LocationService {
         return this.locationRepository.findByTypeOrName(type, name);
     }
 
-    //  p1 -------- p2
-    //  -           -
-    //  -     l     -
-    //  -           -
-    //  p3 -------- p4
-
     public List<Location> findByPointOfInterest(Point p1, Point p2, Point p3, Point p4) {
-        return this.listAllLocations().stream().filter((l) -> {
+        List<Location> locations = this.listAllLocations();
+        return locations.stream().filter((l) -> {
             Double lLong = l.getLong();
             Double lLat = l.getLat();
             return lLong <= p1.getLong() && lLong <= p2.getLong() &&
@@ -57,6 +52,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public List<String> listTypes() {
-        return this.listAllLocations().stream().map(Location::getType).distinct().collect(Collectors.toList());
+        List<Location> locations = this.listAllLocations();
+        return locations.stream().map(Location::getType).distinct().collect(Collectors.toList());
     }
 }

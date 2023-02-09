@@ -13,13 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 
-// TODO: Remove in production
-// CORS Temp fix
-
 /**
- * This is where you are supposed to write the apis <br>
- * The communication is done purely with the interface LocationService. <br>
- * The old calls still exist to retain functionality of the app <br>
+ * This class provides the REST APIs for location information.
  */
 @CrossOrigin
 @RestController
@@ -33,12 +28,12 @@ public class LocationController {
     }
 
     /**
-     * This method returns different locations from the LocationService. <br>
+     * Returns a list of locations based on the provided parameters. <br>
      * The method should be mapped on the path '/get-locations'. <br>
      * The arguments that the method takes are optional and can be null. <br>
      * <br>
-     * @param type <br>
-     * @param name <br>
+     * @param type Type of the location <br>
+     * @param name Name of the location <br>
      * @return List Locations
      */
     @GetMapping(value = "/get-locations", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -55,6 +50,18 @@ public class LocationController {
             return this.locationService.listByTypeOrName(type, name);
     }
 
+    /**
+     * Returns locations based on the provided coordinates.
+     * @param x1  x coordinate of the first point
+     * @param y1  y coordinate of the first point
+     * @param x2  x coordinate of the second point
+     * @param y2  y coordinate of the second point
+     * @param x3  x coordinate of the third point
+     * @param y3  y coordinate of the third point
+     * @param x4  x coordinate of the fourth point
+     * @param y4  y coordinate of the fourth point
+     * @return List of Locations
+     */
     @GetMapping(value = "/get-locations-with-cords", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Location> getByCoordinates(@RequestParam Double x1,
                                            @RequestParam Double y1,
