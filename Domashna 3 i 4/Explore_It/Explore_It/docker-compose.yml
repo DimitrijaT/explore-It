@@ -37,7 +37,7 @@ services:
   frontend:
     container_name: "frontend-reactjs"
     build:
-      context: ../explore_it_front_end
+      context: "../explore_it_front_end"
       dockerfile: Dockerfile
     ports:
       - "80:80"
