@@ -1,10 +1,10 @@
 #no_page_main {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
     background-color: #121212;
+    height: 86vh;
     color: white;
-    position:absolute;
-    top: 68px;
-    right:0px;
-    bottom:0px;
-    left:0px;
 }
