@@ -21,7 +21,7 @@ RUN apk add python3 python3-dev py3-pip build-base libressl-dev musl-dev libffi-
 
 RUN pip3 install pip --upgrade
 RUN pip3 install certbot-nginx
-RUN mkdir /etc/letsencrypt/live/exploreit-mk.online
+RUN mkdir -p /etc/letsencrypt/live/exploreit-mk.online
 
 COPY ./cert/fullchain.pem /etc/letsencrypt/live/exploreit-mk.online/fullchain.pem
 COPY ./cert/privkey.pem /etc/letsencrypt/live/exploreit-mk.online/privkey.pem
