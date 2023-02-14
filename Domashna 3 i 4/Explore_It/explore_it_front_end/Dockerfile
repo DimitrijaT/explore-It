@@ -28,6 +28,7 @@ COPY ./cert/privkey.pem /etc/letsencrypt/live/exploreit-mk.online/privkey.pem
 
 COPY default.conf /etc/nginx/conf.d/default.conf
 
+ENV NODE_TLS_REJECT_UNAUTHORIZED=0
 
 CMD ["nginx", "-g", "daemon off;"]
 
