@@ -60,9 +60,10 @@ export class MapPage extends React.Component {
     }
 
     fill_state_with_results(query) {
+    
         // Store API result in browser storage or cookies?
         this.setState({poi_elements: []});
-        return fetch(`http://backend:8080/api/location/get-locations?type=${query}`)
+        return fetch(`https://exploreit-mk.online:8080/api/location/get-locations?type=${query}`)
             .then(object_array => {
                 console.log(`Promise for ${query} resolved`)
                 return object_array.json();
