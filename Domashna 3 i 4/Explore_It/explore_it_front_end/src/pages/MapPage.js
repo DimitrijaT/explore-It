@@ -81,8 +81,8 @@ export class MapPage extends React.Component {
 
             map_view: new L.Map('map', {
                 center: [this.state.defaultCoordinates.latitude, this.state.defaultCoordinates.longitude], zoom: 12
-            }).addLayer(L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
-                maxZoom: 20, attribution: '© <a href="https://stadiamaps.com/">Stadia Maps</a>'
+            }).addLayer(L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 20, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }))
         });
 
